@@ -1,0 +1,113 @@
+package io.swagger.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Objects;
+
+@Validated
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-25T16:55:34.601Z")
+@Entity
+@Table(name="raspberrypi")
+public class Device implements Serializable {
+    @Id
+    @JsonProperty("did")
+    private String did = null;
+
+    @Column(name="temp")
+    @JsonProperty("temp")
+    private int temp = 0;
+
+    @Column(name="ip")
+    @JsonProperty("ip")
+    private String ip = null;
+
+    @Column(name="fan_status")
+    @JsonProperty("fanStatus")
+    private int fanStatus = 0;
+
+    /**
+     * Get did
+     * @return did
+     **/
+    @ApiModelProperty(example = "1", value = "")
+    public String getDid(){return did;}
+    public void setDid(String did){this.did = did;}
+
+    /**
+     * Get ip
+     * @return ip
+     **/
+    @ApiModelProperty(example = "192.168.38.4", value = "")
+    public String getIp(){return ip;}
+    public void setIp(String ip){this.ip = ip;}
+
+    /**
+     * Get temp
+     * @return temp
+     **/
+    @ApiModelProperty(example = "74", value = "")
+    public int getTemp(){return temp;}
+    public void setTemp(int temp){this.temp = temp;}
+
+    /**
+     * Get fanStatus
+     * @return fanStatus
+     **/
+    @ApiModelProperty(example = "74", value = "")
+    public int getFanStatus(){return fanStatus;}
+    public void setFanStatus(int fanStatus){this.fanStatus = fanStatus;}
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Device device = (Device) o;
+        return Objects.equals(this.did, device.did) &&
+                Objects.equals(this.temp, device.temp) &&
+                Objects.equals(this.ip, device.ip)&&
+                Objects.equals(this.fanStatus, device.fanStatus);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(did, temp, ip, fanStatus);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Device {\n");
+
+        sb.append("    did: ").append(toIndentedString(did)).append("\n");
+        sb.append("    temp: ").append(toIndentedString(temp)).append("\n");
+        sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
+        sb.append("    fanStatus: ").append(toIndentedString(fanStatus)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+}
+
