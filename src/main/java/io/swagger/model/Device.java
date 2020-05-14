@@ -45,7 +45,7 @@ public class Device implements Serializable {
      * Get ip
      * @return ip
      **/
-    @ApiModelProperty(example = "192.168.38.4", value = "")
+    @ApiModelProperty(example = "192.168.86.52", value = "")
     public String getIp(){return ip;}
     public void setIp(String ip){this.ip = ip;}
 
@@ -61,7 +61,7 @@ public class Device implements Serializable {
      * Get fanStatus
      * @return fanStatus
      **/
-    @ApiModelProperty(example = "74", value = "")
+    @ApiModelProperty(example = "0", value = "")
     public int getFanStatus(){return fanStatus;}
     public void setFanStatus(int fanStatus){this.fanStatus = fanStatus;}
 
