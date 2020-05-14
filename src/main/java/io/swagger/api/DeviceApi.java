@@ -31,7 +31,7 @@ public interface DeviceApi {
             @ApiResponse(code = 200, message = "Successfully updated device information"),
             @ApiResponse(code = 400, message = "Invalid device information")
     })
-    @RequestMapping(value = "/device/temperature",
+    @RequestMapping(value = "/device/deviceInfo",
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.PUT)
@@ -42,7 +42,7 @@ public interface DeviceApi {
             @ApiResponse(code = 200, message = "Successfully powered the device"),
             @ApiResponse(code = 400, message = "Invalid device information")
     })
-    @RequestMapping(value = "/device/activate",
+    @RequestMapping(value = "/device/fanPower",
             produces = {"application/json"},
             method = RequestMethod.GET)
     ResponseEntity<Void> activateFan(@ApiParam(value = "", required = true) @PathVariable("did") String did);
