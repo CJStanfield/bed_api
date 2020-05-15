@@ -47,6 +47,16 @@ public interface DeviceApi {
             method = RequestMethod.GET)
     ResponseEntity<Void> activateFan(@ApiParam(value = "", required = true) @PathVariable("did") String did);
 
+    @ApiOperation(value = "Turn on/off fridge device", nickname="PowerDevice", notes = "", tags={"Devices"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully powered the device"),
+            @ApiResponse(code = 400, message = "Invalid device information")
+    })
+    @RequestMapping(value = "/device/fridgePower",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<Void> activateFridge(@ApiParam(value = "", required = true) @PathVariable("did") String did);
+
 
 
 }

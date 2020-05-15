@@ -33,6 +33,10 @@ public class Device implements Serializable {
     @JsonProperty("fanStatus")
     private int fanStatus = 0;
 
+    @Column(name="fridge_status")
+    @JsonProperty("fridgeStatus")
+    private int fridgeStatus = 0;
+
     /**
      * Get did
      * @return did
@@ -65,6 +69,10 @@ public class Device implements Serializable {
     public int getFanStatus(){return fanStatus;}
     public void setFanStatus(int fanStatus){this.fanStatus = fanStatus;}
 
+    @ApiModelProperty(example = "0", value = "")
+    public int getFridgeStatus(){return fridgeStatus;}
+    public void setFridgeStatus(int fridgeStatus){this.fridgeStatus = fridgeStatus;}
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -77,7 +85,8 @@ public class Device implements Serializable {
         return Objects.equals(this.did, device.did) &&
                 Objects.equals(this.temp, device.temp) &&
                 Objects.equals(this.ip, device.ip)&&
-                Objects.equals(this.fanStatus, device.fanStatus);
+                Objects.equals(this.fanStatus, device.fanStatus)&&
+                Objects.equals(this.fridgeStatus, device.fridgeStatus);
     }
 
     @Override
@@ -94,6 +103,7 @@ public class Device implements Serializable {
         sb.append("    temp: ").append(toIndentedString(temp)).append("\n");
         sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
         sb.append("    fanStatus: ").append(toIndentedString(fanStatus)).append("\n");
+        sb.append("    fridgeStatus: ").append(toIndentedString(fridgeStatus)).append("\n");
         sb.append("}");
         return sb.toString();
     }
