@@ -47,9 +47,40 @@ public class UserApiController implements UserApi {
     public ResponseEntity<Void> createUser(@Valid @RequestBody User user) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")) {
-            userRepository.save(user);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            if(user != null) {
+                userRepository.save(user);
+                return new ResponseEntity<Void>(HttpStatus.OK);
+            }else
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }else
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateUserTemperaturePreferences(String uid, int temp){
+        String accept = request.getHeader("Accept");
+        if(accept != null && accept.contains("application/json")) {
+            User user = userRepository.findByUid(uid);
+            if(user != null) {
+                user.setTemp(temp);
+                userRepository.save(user);
+                return new ResponseEntity<Void>(HttpStatus.OK);
+            }else
+                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }else
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getUserTemperaturePreference(String uid){
+        String accept = request.getHeader("Accept");
+        if(accept != null && accept.contains("application/json")) {
+            User user = userRepository.findByUid(uid);
+            if(user != null)
+                return new ResponseEntity<Integer>(user.getTemp(),HttpStatus.OK);
+            else
+                return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+        }else
+            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
     }
 }

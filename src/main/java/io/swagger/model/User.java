@@ -28,6 +28,10 @@ public class User implements Serializable {
     @JsonProperty("pwd")
     private String pwd = null;
 
+    @Column(name="ideal_temp")
+    @JsonProperty("temp")
+    private int temp = 0;
+
     @ApiModelProperty(example = "1", value = "")
     public String getUid(){return uid;}
     public void setUid(String uid) {this.uid = uid;}
@@ -40,6 +44,10 @@ public class User implements Serializable {
     public String getPwd(){return pwd;}
     public void setPwd(String pwd) {this.pwd = pwd;}
 
+    @ApiModelProperty(example = "76", value = "")
+    public int getTemp(){return temp;}
+    public void setTemp(int temp) {this.temp = temp;}
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -51,12 +59,13 @@ public class User implements Serializable {
         User user = (User) o;
         return Objects.equals(this.uid, user.uid) &&
                 Objects.equals(this.did, user.did) &&
-                Objects.equals(this.pwd, user.pwd);
+                Objects.equals(this.pwd, user.pwd) &&
+                Objects.equals(this.temp, user.temp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, did, pwd);
+        return Objects.hash(uid, did, pwd, temp);
     }
 
     @Override
@@ -67,6 +76,7 @@ public class User implements Serializable {
         sb.append("    uid: ").append(toIndentedString(uid)).append("\n");
         sb.append("    did: ").append(toIndentedString(did)).append("\n");
         sb.append("    pwd: ").append(toIndentedString(pwd)).append("\n");
+        sb.append("    temp: ").append(toIndentedString(temp)).append("\n");
         sb.append("}");
         return sb.toString();
     }

@@ -20,7 +20,7 @@ public interface UserApi {
             @ApiResponse(code = 200, message = "Successfully found user"),
             @ApiResponse(code = 400, message = "Invalid user information")
     })
-    @RequestMapping(value = "/users/{uid}",
+    @RequestMapping(value = "/users",
     produces = {"application/json"},
     method = RequestMethod.GET)
     ResponseEntity<User> findUser(@ApiParam(value = "", required = true) @PathVariable("uid") String uid);
@@ -36,4 +36,24 @@ public interface UserApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     ResponseEntity<Void> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user);
+
+    @ApiOperation(value = "Update users ideal temperature", nickname="updateTemperature", notes = "", tags={"Users"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully updated User temperature preferences"),
+            @ApiResponse(code = 400, message = "Invalid user or temperature data"),
+    })
+    @RequestMapping(value = "/users",
+            produces = {"application/json"},
+            method = RequestMethod.PUT)
+    ResponseEntity<Void> updateUserTemperaturePreferences(@ApiParam(value = "", required = true) @PathVariable String uid, @PathVariable("temp") int temp);
+
+    @ApiOperation(value = "Get a users ideal temperature", nickname="getTemperature", notes = "", tags={"Users"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully returned a user's temperature"),
+            @ApiResponse(code = 400, message = "Invalid user id"),
+    })
+    @RequestMapping(value = "/users/temperature",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<Integer> getUserTemperaturePreference(@ApiParam(value = "", required = true) @PathVariable String uid);
 }
