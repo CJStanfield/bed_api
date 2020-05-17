@@ -145,4 +145,25 @@ public class DeviceApiController implements DeviceApi {
         }
         return null;
     }
+
+    @Override
+    public ResponseEntity<Void> updateTemperature(String did, int temperature){
+        String accept = request.getHeader("Accept");
+        if(accept != null && accept.contains("application/json")){
+            Device foundDevice = deviceRepository.findDeviceByDid(did);
+            if(foundDevice != null) {
+                //Save the fan information back into the database
+                Device updatedDevice = new Device();
+                updatedDevice.setDid(foundDevice.getDid());
+                updatedDevice.setFanStatus(foundDevice.getFanStatus());
+                updatedDevice.setIp(foundDevice.getIp());
+                updatedDevice.setTemp(temperature);
+                updatedDevice.setFridgeStatus(foundDevice.getFridgeStatus());
+                return updateDeviceInfo(updatedDevice);
+            }else {
+                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            }
+        }
+        return null;
+    }
 }
