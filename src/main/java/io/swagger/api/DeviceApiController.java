@@ -91,7 +91,7 @@ public class DeviceApiController implements DeviceApi {
                 //Save the fan information back into the database
                 Device updatedDevice = new Device();
                 updatedDevice.setDid(foundDevice.getDid());
-                updatedDevice.setFanStatus(fanStatus == 0 ? 1 : 0);
+                updatedDevice.setFanStatus(state);
                 updatedDevice.setIp(foundDevice.getIp());
                 updatedDevice.setTemp(foundDevice.getTemp());
                 updatedDevice.setFridgeStatus(foundDevice.getFridgeStatus());
@@ -137,7 +137,7 @@ public class DeviceApiController implements DeviceApi {
                 updatedDevice.setFanStatus(foundDevice.getFanStatus());
                 updatedDevice.setIp(foundDevice.getIp());
                 updatedDevice.setTemp(foundDevice.getTemp());
-                updatedDevice.setFridgeStatus(fridgeStatus == 0 ? 1 : 0);
+                updatedDevice.setFridgeStatus(state);
                 return updateDeviceInfo(updatedDevice);
             }else {
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
