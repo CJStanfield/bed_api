@@ -61,27 +61,13 @@ public class DeviceApiController implements DeviceApi {
     }
 
     @Override
-    public ResponseEntity<Void> activateFan(String did) {
+    public ResponseEntity<Void> activateFan(String did, int state) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")){
             Device foundDevice = deviceRepository.findDeviceByDid(did);
                 if(foundDevice != null) {
                 int fanStatus = foundDevice.getFanStatus();
-                String apiUrl = "";
-                switch (fanStatus){
-                    case 0:
-                        apiUrl = ":5000/relay/fan?state=0";
-                        break;
-                    case 1:
-                        apiUrl = ":5000/relay/fan?state=1";
-                        break;
-                    case 2:
-                        //this will need to be changed to reflect the correct error code. Device not functioning properly
-                        return new ResponseEntity<Void>(HttpStatus.SERVICE_UNAVAILABLE);
-                    default:
-                        //Change this as well
-                        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-                }
+                String apiUrl = ":5000/relay/fan?state=" + String.valueOf(state);
                 try {
                     String raspberryPiIp = foundDevice.getIp();
                     URL url = new URL("http://" + raspberryPiIp + apiUrl);
@@ -118,27 +104,13 @@ public class DeviceApiController implements DeviceApi {
     }
 
     @Override
-    public ResponseEntity<Void> activateFridge(String did) {
+    public ResponseEntity<Void> activateFridge(String did, int state) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")){
             Device foundDevice = deviceRepository.findDeviceByDid(did);
             if(foundDevice != null) {
                 int fridgeStatus = foundDevice.getFridgeStatus();
-                String apiUrl = "";
-                switch (fridgeStatus){
-                    case 0:
-                        apiUrl = ":5000/relay/fridge?state=0";
-                        break;
-                    case 1:
-                        apiUrl = ":5000/relay/fridge?state=1";
-                        break;
-                    case 2:
-                        //this will need to be changed to reflect the correct error code. Device not functioning properly
-                        return new ResponseEntity<Void>(HttpStatus.SERVICE_UNAVAILABLE);
-                    default:
-                        //Change this as well
-                        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-                }
+                String apiUrl = ":5000/relay/fridge?state=" + String.valueOf(state);
                 try {
                     String raspberryPiIp = foundDevice.getIp();
                     URL url = new URL("http://" + raspberryPiIp + apiUrl);

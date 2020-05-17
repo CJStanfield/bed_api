@@ -45,7 +45,7 @@ public interface DeviceApi {
     @RequestMapping(value = "/device/fanPower",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<Void> activateFan(@ApiParam(value = "", required = true) @PathVariable("did") String did);
+    ResponseEntity<Void> activateFan(@ApiParam(value = "", required = true) @PathVariable("did") String did, @PathVariable("state") int state);
 
     @ApiOperation(value = "Turn on/off fridge device", nickname="PowerDevice", notes = "", tags={"Devices"})
     @ApiResponses(value = {
@@ -55,7 +55,7 @@ public interface DeviceApi {
     @RequestMapping(value = "/device/fridgePower",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<Void> activateFridge(@ApiParam(value = "", required = true) @PathVariable("did") String did);
+    ResponseEntity<Void> activateFridge(@ApiParam(value = "", required = true) @PathVariable("did") String did, @PathVariable("state") int state);
 
 
 

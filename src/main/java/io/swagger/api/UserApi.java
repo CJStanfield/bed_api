@@ -55,5 +55,5 @@ public interface UserApi {
     @RequestMapping(value = "/users/temperature",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<Integer> getUserTemperaturePreference(@ApiParam(value = "", required = true) @PathVariable String uid);
+    ResponseEntity<String> getUserTemperaturePreference(@ApiParam(value = "", required = true) @PathVariable String uid);
 }

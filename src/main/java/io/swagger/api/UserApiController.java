@@ -72,15 +72,15 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<Integer> getUserTemperaturePreference(String uid){
+    public ResponseEntity<String> getUserTemperaturePreference(String uid){
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")) {
             User user = userRepository.findByUid(uid);
             if(user != null)
-                return new ResponseEntity<Integer>(user.getTemp(),HttpStatus.OK);
+                return new ResponseEntity<String>(String.valueOf(user.getTemp()),HttpStatus.OK);
             else
-                return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         }else
-            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 }
