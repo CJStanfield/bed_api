@@ -37,6 +37,10 @@ public class Device implements Serializable {
     @JsonProperty("fridgeStatus")
     private int fridgeStatus = 0;
 
+    @Column(name="desired_temp")
+    @JsonProperty("deisredTemp")
+    private int desiredTemp = 0;
+
     /**
      * Get did
      * @return did
@@ -69,9 +73,21 @@ public class Device implements Serializable {
     public int getFanStatus(){return fanStatus;}
     public void setFanStatus(int fanStatus){this.fanStatus = fanStatus;}
 
+    /**
+     * Get fridgeStatus
+     * @return fridgeStatus
+     **/
     @ApiModelProperty(example = "0", value = "")
     public int getFridgeStatus(){return fridgeStatus;}
     public void setFridgeStatus(int fridgeStatus){this.fridgeStatus = fridgeStatus;}
+
+    /**
+     * Get desiredTemp
+     * @return desiredTemp
+     **/
+    @ApiModelProperty(example = "0", value = "")
+    public int getDesiredTemp(){return desiredTemp;}
+    public void setDesiredTemp(int desiredTemp){this.desiredTemp = desiredTemp;}
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -86,12 +102,13 @@ public class Device implements Serializable {
                 Objects.equals(this.temp, device.temp) &&
                 Objects.equals(this.ip, device.ip)&&
                 Objects.equals(this.fanStatus, device.fanStatus)&&
-                Objects.equals(this.fridgeStatus, device.fridgeStatus);
+                Objects.equals(this.fridgeStatus, device.fridgeStatus)&&
+                Objects.equals(this.desiredTemp, device.desiredTemp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(did, temp, ip, fanStatus);
+        return Objects.hash(did, temp, ip, fanStatus, desiredTemp);
     }
 
     @Override
@@ -104,6 +121,7 @@ public class Device implements Serializable {
         sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
         sb.append("    fanStatus: ").append(toIndentedString(fanStatus)).append("\n");
         sb.append("    fridgeStatus: ").append(toIndentedString(fridgeStatus)).append("\n");
+        sb.append("    desiredTemp: ").append(toIndentedString(desiredTemp)).append("\n");
         sb.append("}");
         return sb.toString();
     }
