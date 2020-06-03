@@ -21,7 +21,7 @@ public interface DeviceApi {
             @ApiResponse(code = 200, message = "Successfully found device"),
             @ApiResponse(code = 400, message = "Invalid device information")
     })
-    @RequestMapping(value = "/device/{did}",
+    @RequestMapping(value = "/device",
             produces = {"application/json"},
             method = RequestMethod.GET)
     ResponseEntity<Device> findDevice(@ApiParam(value = "", required = true) @PathVariable("did") String did);
