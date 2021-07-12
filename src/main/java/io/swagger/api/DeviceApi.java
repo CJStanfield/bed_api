@@ -16,6 +16,18 @@ import javax.validation.Valid;
 @Api(value="device", description="Device api")
 public interface DeviceApi {
 
+    @ApiOperation(value = "Create a new device", nickname="CreateDevice", notes = "", tags={"Devices"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully created Device"),
+            @ApiResponse(code = 400, message = "Invalid device data"),
+            @ApiResponse(code = 409, message = "Device already exists")
+    })
+    @RequestMapping(value = "/device",
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    ResponseEntity<Void> createDevice(@ApiParam(value = "", required = true) @Valid @RequestBody Device device);
+
     @ApiOperation(value = "Get a device's information", nickname="FindDevice", notes = "", tags={"Devices"})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully found device"),
@@ -46,16 +58,6 @@ public interface DeviceApi {
             produces = {"application/json"},
             method = RequestMethod.GET)
     ResponseEntity<Void> activateFan(@ApiParam(value = "", required = true) @PathVariable("did") String did, @PathVariable("state") int state);
-
-    @ApiOperation(value = "Turn on/off fridge device", nickname="PowerDevice", notes = "", tags={"Devices"})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully powered the device"),
-            @ApiResponse(code = 400, message = "Invalid device information")
-    })
-    @RequestMapping(value = "/device/fridgePower",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<Void> activateFridge(@ApiParam(value = "", required = true) @PathVariable("did") String did, @PathVariable("state") int state);
 
     @ApiOperation(value = "Update Device temperature", nickname="UpdateDeviceTemperature", notes = "", tags={"Devices"})
     @ApiResponses(value = {

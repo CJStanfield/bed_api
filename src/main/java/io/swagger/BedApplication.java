@@ -29,7 +29,10 @@ public class BedApplication extends SpringBootServletInitializer {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*"); // change to client host after launch
+                registry.addMapping("/**")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowedOrigins("*");// change to client host after launch
             }
         };
     }

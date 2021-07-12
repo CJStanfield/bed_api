@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.model.Device;
+import io.swagger.model.User;
 import io.swagger.repository.DeviceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,20 @@ public class DeviceApiController implements DeviceApi {
     public DeviceApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
+    }
+
+
+    @Override
+    public ResponseEntity<Void> createDevice(Device device) {
+        String accept = request.getHeader("Accept");
+        if(accept != null && accept.contains("application/json")) {
+            if(device != null) {
+                deviceRepository.save(device);
+                return new ResponseEntity<Void>(HttpStatus.OK);
+            }else
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }else
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -94,7 +109,6 @@ public class DeviceApiController implements DeviceApi {
                 updatedDevice.setFanStatus(state);
                 updatedDevice.setIp(foundDevice.getIp());
                 updatedDevice.setTemp(foundDevice.getTemp());
-                updatedDevice.setFridgeStatus(foundDevice.getFridgeStatus());
                 return updateDeviceInfo(updatedDevice);
             }else {
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -103,48 +117,6 @@ public class DeviceApiController implements DeviceApi {
         return null;
     }
 
-    @Override
-    public ResponseEntity<Void> activateFridge(String did, int state) {
-        String accept = request.getHeader("Accept");
-        if(accept != null && accept.contains("application/json")){
-            Device foundDevice = deviceRepository.findDeviceByDid(did);
-            if(foundDevice != null) {
-                int fridgeStatus = foundDevice.getFridgeStatus();
-                String apiUrl = ":5000/relay/fridge?state=" + String.valueOf(state);
-                try {
-                    String raspberryPiIp = foundDevice.getIp();
-                    URL url = new URL("http://" + raspberryPiIp + apiUrl);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-
-                    if (connection.getResponseCode() != 200) {
-                        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-                    }
-                    InputStreamReader in = new InputStreamReader(connection.getInputStream());
-                    BufferedReader br = new BufferedReader(in);
-                    String output;
-                    while ((output = br.readLine()) != null) {
-                        System.out.println(output);
-                    }
-                    connection.disconnect();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                //Save the fan information back into the database
-                Device updatedDevice = new Device();
-                updatedDevice.setDid(foundDevice.getDid());
-                updatedDevice.setFanStatus(foundDevice.getFanStatus());
-                updatedDevice.setIp(foundDevice.getIp());
-                updatedDevice.setTemp(foundDevice.getTemp());
-                updatedDevice.setFridgeStatus(state);
-                return updateDeviceInfo(updatedDevice);
-            }else {
-                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-            }
-        }
-        return null;
-    }
 
     @Override
     public ResponseEntity<Void> updateTemperature(String did, int temperature){
@@ -158,7 +130,6 @@ public class DeviceApiController implements DeviceApi {
                 updatedDevice.setFanStatus(foundDevice.getFanStatus());
                 updatedDevice.setIp(foundDevice.getIp());
                 updatedDevice.setTemp(temperature);
-                updatedDevice.setFridgeStatus(foundDevice.getFridgeStatus());
                 return updateDeviceInfo(updatedDevice);
             }else {
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);

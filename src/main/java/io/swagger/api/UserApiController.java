@@ -7,13 +7,16 @@ import io.swagger.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.FallbackWebSecurityAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @Controller
 public class UserApiController implements UserApi {
@@ -76,11 +79,30 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")) {
             User user = userRepository.findByUid(uid);
-            if(user != null)
-                return new ResponseEntity<String>(String.valueOf(user.getTemp()),HttpStatus.OK);
-            else
+            if(user != null) {
+                ResponseEntity<String> responseEntity = new ResponseEntity<>(String.valueOf(user.getTemp()), HttpStatus.OK);
+                return responseEntity;
+            }else
                 return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         }else
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<Object> userLogin(String uid, String pwd) {
+        HashMap<String, Boolean> loginMap = new HashMap<>();
+        loginMap.put("login_attempt", false);
+
+        String accept = request.getHeader("Accept");
+
+        if(accept != null && accept.contains("application/json")) {
+            User user = userRepository.findByUid(uid);
+            if(user != null && user.getPwd().equals(pwd)) {
+                loginMap.put("login_attempt", true);
+                return new ResponseEntity<>(loginMap, HttpStatus.OK);
+            }else
+                return new ResponseEntity<>(loginMap, HttpStatus.NOT_FOUND);
+        }else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

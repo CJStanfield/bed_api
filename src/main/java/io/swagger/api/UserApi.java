@@ -56,4 +56,15 @@ public interface UserApi {
             produces = {"application/json"},
             method = RequestMethod.GET)
     ResponseEntity<String> getUserTemperaturePreference(@ApiParam(value = "", required = true) @PathVariable String uid);
+
+    @ApiOperation(value = "Get a users ideal temperature", nickname="getTemperature", notes = "", tags={"Users"})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully validated users credentials"),
+            @ApiResponse(code = 400, message = "Invalid user credentials"),
+    })
+    @RequestMapping(value = "/users/login",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<Object> userLogin(@ApiParam(value = "", required = true) @PathVariable String uid, @PathVariable String pwd);
+
 }
